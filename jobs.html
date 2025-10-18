@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Available Workers / उपलब्ध मजदूर</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { font-family: 'Poppins', sans-serif; background:#FFF8E7; color:#4B3621; padding:20px; }
+    h1 { text-align:center; color:#6B4226; margin-bottom:20px; }
+    .filters { display:flex; justify-content:space-around; margin-bottom:20px; flex-wrap:wrap; gap:10px; }
+    .filters input, .filters select { padding:10px; border-radius:10px; border:1px solid #ccc; min-width:150px; }
+    .mic-btn { cursor:pointer; margin-left:5px; font-size:18px; }
+    .worker-list { display:flex; flex-direction:column; gap:15px; }
+    .worker-card { background:#FFF1D6; padding:15px; border-radius:15px; box-shadow:0 3px 10px rgba(0,0,0,0.1); }
+    .worker-card h3 { margin:0 0 5px 0; color:#6B4226; }
+    .worker-card p { margin:2px 0; }
+    .hire-btn {
+      margin-top:10px;
+      background:#FF7F11;
+      color:white;
+      border:none;
+      padding:8px 16px;
+      border-radius:20px;
+      cursor:pointer;
+      font-weight:bold;
+      transition:0.3s;
+    }
+    .hire-btn:hover { background:#6B4226; }
+    .back-btn { display:block; width:fit-content; margin:20px auto 0; text-decoration:none; background:#6B4226; color:#fff; padding:10px 20px; border-radius:20px; text-align:center; }
+    .back-btn:hover { background:#FF7F11; }
+  </style>
+</head>
+<body>
+  <h1>Available Workers / उपलब्ध मजदूर</h1>
+
+  <div class="filters">
+    <div>
+      <input type="text" id="filterLocation" placeholder="Location / स्थान">
+      <span class="mic-btn" onclick="startRecognition('filterLocation')">🎤</span>
+    </div>
+    <div>
+      <select id="filterProfession">
+        <option value="">Select Profession / पेशा चुनें</option>
+        <option value="Carpenter">Carpenter / बढ़ई</option>
+        <option value="Plumber">Plumber / प्लंबर</option>
+        <option value="Electrician">Electrician / इलेक्ट्रीशियन</option>
+        <option value="Labour">Labour / मजदूर</option>
+      </select>
+    </div>
+    <div>
+      <input type="number" id="filterWage" placeholder="Max Wage / अधिकतम वेतन">
+    </div>
+    <button onclick="applyFilters()">Search / खोजें</button>
+  </div>
+
+  <div class="worker-list" id="workerList">
+    <!-- Worker cards will appear here -->
+  </div>
+
+  <a href="hirer_registration.html" class="back-btn">Back to Registration / पंजीकरण पर जाएँ</a>
+
+  <script src="script.js"></script>
+  <script>
+    // Sample worker data
+    const workers = [
+      {name:"Ramesh / रमेश", profession:"Carpenter / बढ़ई", location:"Delhi / दिल्ली", wage:500, phone:"9876543210"},
+      {name:"Suresh / सुरेश", profession:"Plumber / प्लंबर", location:"Mumbai / मुंबई", wage:600, phone:"9123456780"},
+      {name:"Mahesh / महेश", profession:"Electrician / इलेक्ट्रीशियन", location:"Delhi / दिल्ली", wage:700, phone:"9898989898"},
+      {name:"Rajesh / राजेश", profession:"Labour / मजदूर", location:"Bangalore / बैंगलोर", wage:400, phone:"9012345678"},
+    ];
+
+    const workerList = document.getElementById('workerList');
+
+    function displayWorkers(list) {
+      workerList.innerHTML = '';
+      if(list.length === 0){
+        workerList.innerHTML = '<p>No workers found / कोई मजदूर नहीं मिला</p>';
+        return;
+      }
+      list.forEach(worker => {
+        const card = document.createElement('div');
+        card.className = 'worker-card';
+        card.innerHTML = `
+          <h3>${worker.name}</h3>
+          <p>Profession / पेशा: ${worker.profession}</p>
+          <p>Location / स्थान: ${worker.location}</p>
+          <p>Wage / वेतन: ₹${worker.wage}</p>
+          <p>Phone / फ़ोन: ${worker.phone}</p>
+          <button class="hire-btn" onclick="hireWorker('${worker.name}')">Hire / मजदूर चुनें</button>
+        `;
+        workerList.appendChild(card);
+      });
+    }
+
+    displayWorkers(workers);
+
+    function applyFilters() {
+      const loc = document.getElementById('filterLocation').value.toLowerCase();
+      const prof = document.getElementById('filterProfession').value.toLowerCase();
+      const wage = parseInt(document.getElementById('filterWage').value);
+
+      const filtered = workers.filter(worker => {
+        return (
+          (loc === '' || worker.location.toLowerCase().includes(loc)) &&
+          (prof === '' || worker.profession.toLowerCase().includes(prof)) &&
+          (isNaN(wage) || worker.wage <= wage)
+        );
+      });
+
+      displayWorkers(filtered);
+    }
+
+    function hireWorker(name) {
+      alert(`You hired ${name}! / आपने ${name} को चुना है!`);
+    }
+
+    // Voice input function
+    function startRecognition(fieldId) {
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = 'hi-IN';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+      recognition.start();
+
+      recognition.onresult = (event) => {
+        document.getElementById(fieldId).value = event.results[0][0].transcript;
+      };
+      recognition.onerror = (event) => { alert('Error: ' + event.error); }
+    }
+  </script>
+</body>
+</html>

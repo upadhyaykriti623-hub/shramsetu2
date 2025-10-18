@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Labour Registration | KaamSetu / कामसेतु</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { font-family: 'Poppins', sans-serif; background:#FFF8E7; color:#4B3621; display:flex; justify-content:center; align-items:center; min-height:100vh; }
+    .form-container { background:#FFF1D6; padding:40px; border-radius:20px; box-shadow:0 4px 15px rgba(0,0,0,0.1); width:350px; }
+    h1 { text-align:center; margin-bottom:20px; color:#6B4226; }
+    label { display:block; margin-top:15px; font-weight:500; }
+    .input-group { display:flex; align-items:center; margin-top:5px; }
+    input { flex:1; padding:10px; border-radius:10px; border:1px solid #ccc; }
+    button { margin-top:20px; width:100%; padding:12px; background:#FF7F11; color:white; font-weight:bold; border:none; border-radius:30px; cursor:pointer; transition:0.3s; }
+    button:hover { background:#6B4226; }
+    .mic-btn { margin-left:5px; cursor:pointer; font-size:18px; }
+    .home-btn { display:block; margin:20px auto 0 auto; text-decoration:none; background:#6B4226; color:#fff; padding:10px 20px; border-radius:20px; text-align:center; }
+    .home-btn:hover { background:#FF7F11; }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h1>Labour Registration / मजदूर पंजीकरण</h1>
+    <form id="labourForm">
+      <label>Name / नाम</label>
+      <div class="input-group">
+        <input type="text" id="name" placeholder="Enter your name / नाम दर्ज करें" required>
+        <span class="mic-btn" onclick="startRecognition('name')">🎤</span>
+      </div>
+
+      <label>Trade / पेशा</label>
+      <div class="input-group">
+        <input type="text" id="trade" placeholder="Plumber, Painter etc / पेशा दर्ज करें" required>
+        <span class="mic-btn" onclick="startRecognition('trade')">🎤</span>
+      </div>
+
+      <label>Contact Number / संपर्क नंबर</label>
+      <div class="input-group">
+        <input type="text" id="contact" placeholder="Phone number / फ़ोन नंबर" required>
+        <span class="mic-btn" onclick="startRecognition('contact')">🎤</span>
+      </div>
+
+      <label>Available Area / कार्य क्षेत्र</label>
+      <div class="input-group">
+        <input type="text" id="area" placeholder="City / Area / शहर / क्षेत्र" required>
+        <span class="mic-btn" onclick="startRecognition('area')">🎤</span>
+      </div>
+
+      <label>Daily Wage / दैनिक मजदूरी</label>
+      <div class="input-group">
+        <input type="text" id="wage" placeholder="₹ / रुपए" required>
+        <span class="mic-btn" onclick="startRecognition('wage')">🎤</span>
+      </div>
+
+      <button type="submit">Register / रजिस्टर करें</button>
+    </form>
+
+    <a href="index.html" class="home-btn">Back to Home / होम पर जाएँ</a>
+  </div>
+
+  <script src="script.js">
+    // Voice input function
+    function startRecognition(fieldId) {
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = 'hi-IN';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+      recognition.start();
+
+      recognition.onresult = (event) => {
+        document.getElementById(fieldId).value = event.results[0][0].transcript;
+      };
+      recognition.onerror = (event) => { alert('Error: ' + event.error); }
+    }
+
+    // Form submit redirect
+    const form = document.getElementById('labourForm');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault(); // prevent actual form submission
+      alert('Registration Successful! / पंजीकरण सफल!');
+      window.location.href = 'labour_dashboard.html'; // redirect to labour dashboard
+    });
+  </script>
+</body>
+</html>

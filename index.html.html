@@ -1,0 +1,137 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShramSetu | ShramSetu</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Added Google Font for cursive logo -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Cursive', 'Poppins', sans-serif;
+      min-height: 100vh;
+      background-color: #FFF8E7;
+      color: #4B3621;
+    }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      position: relative;
+      height: 100vh;
+      background: url('https://images.unsplash.com/photo-1596464716121-06a2c2362b49?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
+      display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+    }
+
+    .hero::before {
+      content:'';
+      position:absolute; top:0; left:0; width:100%; height:100%;
+      background: rgba(255,248,231,0.85);
+      backdrop-filter: blur(5px);
+      z-index:1;
+    }
+
+    .hero-content {
+      position:relative; z-index:2;
+    }
+
+    /* ---------- LOGO ---------- */
+    .logo-container {
+      width: 150px; height: 150px; position:relative;
+      font-family: 'Great Vibes', cursive; /* cursive logo font */
+      font-size: 80px; font-weight:bold;
+      color:#6B4226;
+      display:flex; justify-content:center; align-items:center;
+      transform: rotate(-20deg);
+      margin:0 auto 10px auto;
+    }
+
+    .logo-container span {
+      position:absolute;
+      font-size:80px;
+      font-weight:bold;
+      color:#6B4226;
+    }
+
+    /* updated letters H and B */
+    .logo-container .k { content:'H'; top:0; left:10px; }
+    .logo-container .s { content:'B'; bottom:0; right:10px; }
+
+    /* subtle icons */
+    .logo-container::before { content:"🛠️"; position:absolute; top:-20px; left:-15px; font-size:28px; }
+    .logo-container::after { content:"📱"; position:absolute; bottom:-20px; right:-15px; font-size:28px; }
+
+    .logo-text { font-size:60px; font-weight:800; color:#6B4226; margin-top:20px; }
+    .logo-subtext { font-size:28px; font-weight:500; color:#4B3621; margin-bottom:20px; }
+
+    .tagline { font-size:22px; font-weight:500; color:#6B4226; margin-bottom:10px; }
+    .tagline-hindi { font-size:20px; font-weight:400; color:#4B3621; margin-bottom:30px; }
+
+    /* ---------- CTA BUTTONS ---------- */
+    .cta-buttons { display:flex; gap:20px; justify-content:center; flex-wrap:wrap; margin-bottom:50px; }
+    .cta-buttons a {
+      text-decoration:none; padding:15px 30px; background:#FF7F11; color:#fff; border-radius:30px;
+      font-weight:bold; transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .cta-buttons a:hover { background:#6B4226; transform:scale(1.1); }
+
+    /* ---------- FEATURES ---------- */
+    .features { display:flex; justify-content:center; gap:50px; flex-wrap:wrap; padding:50px 20px; background-color:#FFF8E7; }
+    .card {
+      background:#FFF1D6; border-radius:20px; padding:30px; width:320px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow:0 4px 15px rgba(0,0,0,0.1);
+    }
+    .card:hover { transform:translateY(-7px); box-shadow:0 8px 20px rgba(0,0,0,0.15); }
+    .card h2 { font-size:26px; color:#8B5E3C; margin-bottom:5px; }
+    .card h3 { font-size:20px; color:#4B3621; margin-bottom:15px; }
+    .card p { font-size:16px; line-height:1.6; color:#4B3621; }
+
+    /* ---------- FOOTER ---------- */
+    footer { text-align:center; padding:20px; font-size:14px; color:#4B3621; background:#FFF3D8; }
+    .contact { font-size:16px; margin-top:5px; }
+  </style>
+</head>
+<body>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="logo-container">
+        <span class="k">S</span>
+        <span class="s">S</span>
+      </div>
+      <h1 class="logo-text">ShramSetu</h1>
+      <h2 class="logo-subtext">श्रमसेतु</h2>
+      <p class="tagline">Connecting Skills, Creating Opportunities</p>
+      <p class="tagline-hindi">कौशल जोड़ें, अवसर बढ़ाएं</p>
+      <div class="cta-buttons">
+        <a href="labour_registration.html">Get Hired / काम पाएं</a>
+        <a href="hirer_registration.html">Hire Now / हायर करें</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features">
+    <div class="card">
+      <h2>For Labourers</h2>
+      <h3>मज़दूरों के लिए</h3>
+      <p>Register on the app to set daily availability, expected wage, and work area. Receive job offers directly on your phone.</p>
+      <p>एप पर रजिस्टर करें, अपनी उपलब्धता, मजदूरी और कार्य क्षेत्र सेट करें। सीधे फोन पर नौकरी के ऑफर प्राप्त करें।</p>
+    </div>
+    <div class="card">
+      <h2>For Hirers</h2>
+      <h3>काम देने वालों के लिए</h3>
+      <p>Find skilled workers nearby, view their profile, and hire based on availability and skill type.</p>
+      <p>अपने क्षेत्र के कुशल मजदूर खोजें, उनका प्रोफ़ाइल देखें और उपलब्धता व कौशल के आधार पर हायर करें।</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 ShramSetu | Designed for Anveshan Research Competition</p>
+    <p class="contact">Contact us: <b>shramsetu.in@gmail.com</b></p>
+  </footer>
+<script src="script.js"></script>
+</body>
+</html>

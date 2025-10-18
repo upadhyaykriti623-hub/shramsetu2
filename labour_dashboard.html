@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-en="Labourer Dashboard" data-hi="मजदूर डैशबोर्ड">Labourer Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+  <style>
+    body { font-family: 'Poppins', sans-serif; background:#FFF8E7; color:#4B3621; margin:0; }
+    header { background:#FF7F11; color:white; text-align:center; padding:15px 0; }
+    header button { margin:0 5px; background:#fff; border:none; border-radius:5px; cursor:pointer; padding:5px 10px; }
+    main { padding:20px; }
+    section { background:#FFF1D6; margin-bottom:20px; padding:20px; border-radius:15px; box-shadow:0 2px 10px rgba(0,0,0,0.1); }
+    h2 { color:#6B4226; }
+    .search-container input { margin:5px; padding:8px; border-radius:10px; border:1px solid #ccc; }
+    .job-list { margin-top:15px; }
+    .job-card { background:#fff; border-radius:10px; padding:10px; margin:10px 0; box-shadow:0 1px 5px rgba(0,0,0,0.1); position:relative; transition:0.3s; }
+    .job-card:hover { background:#fff6e5; }
+    .apply-btn { display:none; background:#FF7F11; color:white; border:none; border-radius:8px; padding:6px 12px; cursor:pointer; margin-top:8px; transition:0.3s; }
+    .apply-btn:hover { background:#6B4226; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 data-en="Welcome, Labourer!" data-hi="स्वागत है, मजदूर!">Welcome, Labourer!</h1>
+    <button onclick="setLanguage('en')">EN</button>
+    <button onclick="setLanguage('hi')">HI</button>
+  </header>
+
+  <main>
+    <!-- Labourer Profile -->
+    <section id="labourProfile">
+      <h2 data-en="Your Profile" data-hi="आपकी प्रोफ़ाइल">Your Profile</h2>
+      <p><b data-en="Name" data-hi="नाम">Name</b>: <span id="labourName">-</span></p>
+      <p><b data-en="Trade" data-hi="पेशा">Trade</b>: <span id="labourTrade">-</span></p>
+      <p><b data-en="Area" data-hi="क्षेत्र">Area</b>: <span id="labourArea">-</span></p>
+      <p><b data-en="Wage" data-hi="मजदूरी">Wage</b>: <span id="labourWage">-</span></p>
+    </section>
+
+    <!-- Job Search Section -->
+    <section>
+      <h2 data-en="Available Jobs" data-hi="उपलब्ध कार्य">Available Jobs</h2>
+      <div class="search-container">
+        <input type="text" id="searchLocation" placeholder="Search by location / स्थान से खोजें">
+        <input type="text" id="searchTrade" placeholder="Search by occupation / पेशा से खोजें">
+        <input type="number" id="searchWage" placeholder="Max wage ₹ / अधिकतम मजदूरी ₹">
+        <button onclick="filterJobs()">🔍</button>
+      </div>
+      <div class="job-list" id="jobList"></div>
+    </section>
+  </main>
+
+  <script>
+    const jobs = [
+      { name: "Ravi Constructions", trade: "Plumber", area: "Delhi", wage: 600, contact: "9876543210" },
+      { name: "Bright Homes", trade: "Painter", area: "Noida", wage: 500, contact: "9822334455" },
+      { name: "PowerFix Pvt. Ltd.", trade: "Electrician", area: "Gurgaon", wage: 700, contact: "9811122233" },
+      { name: "MasonBuild Co.", trade: "Mason", area: "Faridabad", wage: 550, contact: "9877070707" },
+    ];
+
+    function displayJobs(filteredJobs = jobs) {
+      const jobList = document.getElementById("jobList");
+      jobList.innerHTML = "";
+      filteredJobs.forEach(job => {
+        const card = document.createElement("div");
+        card.classList.add("job-card");
+        card.innerHTML = `
+          <p><b data-en="Company / Hirer Name" data-hi="कंपनी / काम देने वाले का नाम">Company / Hirer Name</b>: ${job.name}</p>
+          <p><b data-en="Trade" data-hi="पेशा">Trade</b>: ${job.trade}</p>
+          <p><b data-en="Area" data-hi="क्षेत्र">Area</b>: ${job.area}</p>
+          <p><b data-en="Wage" data-hi="मजदूरी">Wage</b>: ₹${job.wage}</p>
+          <p><b data-en="Contact Number" data-hi="संपर्क नंबर">Contact Number</b>: ${job.contact}</p>
+          <button class="apply-btn" data-en="Apply" data-hi="आवेदन करें">Apply</button>
+        `;
+        jobList.appendChild(card);
+
+        const applyBtn = card.querySelector(".apply-btn");
+
+        // Show Apply button when job card clicked
+        card.addEventListener("click", () => {
+          const allButtons = document.querySelectorAll(".apply-btn");
+          allButtons.forEach(btn => btn.style.display = "none");
+          applyBtn.style.display = "inline-block";
+        });
+
+        // Apply button click event
+        applyBtn.addEventListener("click", (event) => {
+          event.stopPropagation();
+          const lang = document.querySelector("h1").textContent.includes("स्वागत") ? "hi" : "en";
+          if (lang === "hi") {
+            alert("आपने इस काम के लिए सफलतापूर्वक आवेदन किया है!");
+            applyBtn.textContent = "आवेदन किया गया";
+          } else {
+            alert("You have successfully applied for this job!");
+            applyBtn.textContent = "Applied";
+          }
+          applyBtn.disabled = true;
+          applyBtn.style.background = "#6B4226";
+        });
+      });
+    }
+
+    function filterJobs() {
+      const location = document.getElementById("searchLocation").value.toLowerCase();
+      const trade = document.getElementById("searchTrade").value.toLowerCase();
+      const maxWage = parseInt(document.getElementById("searchWage").value);
+
+      const filtered = jobs.filter(job =>
+        (!location || job.area.toLowerCase().includes(location)) &&
+        (!trade || job.trade.toLowerCase().includes(trade)) &&
+        (!maxWage || job.wage <= maxWage)
+      );
+      displayJobs(filtered);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      displayJobs();
+    });
+  </script>
+</body>
+</html>
